@@ -137,6 +137,10 @@ typedef NS_ENUM(NSUInteger,WMControlType) {
  */
 @property (nonatomic,assign) BOOL  enableFastForwardGesture;
 /**
+ 是否开启亮度手势
+ */
+@property (nonatomic,assign) BOOL  enableBrightnessGesture;
+/**
  是否静音
  */
 @property (nonatomic,assign) BOOL  muted;

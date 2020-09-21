@@ -164,7 +164,7 @@ static void *PlayViewStatusObservationContext = &PlayViewStatusObservationContex
     //设置默认值
     self.enableVolumeGesture = YES;
     self.enableFastForwardGesture = YES;
-    
+    self.enableBrightnessGesture = YES;
     //小菊花
     self.loadingView = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhite];
     [self.contentView addSubview:self.loadingView];
@@ -1197,18 +1197,20 @@ static void *PlayViewStatusObservationContext = &PlayViewStatusObservationContex
         }
     }else if(self.controlType == WMControlTypeLight){   //如果是亮度手势
         if (self.isFullscreen) {
-            //根据触摸开始时的亮度, 和触摸开始时的点来计算出现在的亮度
-            float tempLightValue = self.touchBeginLightValue - ((tempPoint.y - _touchBeginPoint.y)/self.bounds.size.height);
-            if (tempLightValue < 0) {
-                tempLightValue = 0;
-            }else if(tempLightValue > 1){
-                tempLightValue = 1;
+            if (self.enableBrightnessGesture) {
+                //根据触摸开始时的亮度, 和触摸开始时的点来计算出现在的亮度
+                float tempLightValue = self.touchBeginLightValue - ((tempPoint.y - _touchBeginPoint.y)/self.bounds.size.height);
+                if (tempLightValue < 0) {
+                    tempLightValue = 0;
+                }else if(tempLightValue > 1){
+                    tempLightValue = 1;
+                }
+                //        控制亮度的方法
+                [UIScreen mainScreen].brightness = tempLightValue;
+                //        实时改变现实亮度进度的view
+                NSLog(@"亮度调节 = %f",tempLightValue);
+                [self.contentView bringSubviewToFront:self.lightView];
             }
-            //        控制亮度的方法
-            [UIScreen mainScreen].brightness = tempLightValue;
-            //        实时改变现实亮度进度的view
-            NSLog(@"亮度调节 = %f",tempLightValue);
-            [self.contentView bringSubviewToFront:self.lightView];
         }else{
             
         }
