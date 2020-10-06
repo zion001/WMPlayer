@@ -922,12 +922,14 @@ static void *PlayViewStatusObservationContext = &PlayViewStatusObservationContex
             AVPlayerItemStatus status = [[change objectForKey:NSKeyValueChangeNewKey] integerValue];
             switch (status){
                 case AVPlayerItemStatusUnknown:{
+                    self.loadFailedLabel.hidden = YES;
                     [self.loadingProgress setProgress:0.0 animated:NO];
                     self.state = WMPlayerStateBuffering;
                     [self.loadingView startAnimating];
                 }
                     break;
                 case AVPlayerItemStatusReadyToPlay:{
+                    self.loadFailedLabel.hidden = YES;
                       /* Once the AVPlayerItem becomes ready to play, i.e.
                      [playerItem status] == AVPlayerItemStatusReadyToPlay,
                      its duration can be fetched from the item. */
